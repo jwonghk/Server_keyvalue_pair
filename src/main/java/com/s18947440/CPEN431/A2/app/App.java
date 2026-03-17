@@ -16,6 +16,7 @@ public class App
 
         System.out.println("Hello World!\n");
 
+        System.out.println("Max heap: " + Runtime.getRuntime().maxMemory());
         String currentHostAddr;
         String dest_hostname = "35.95.139.9";
         //String dest_hostname = "34.213.181.35";
