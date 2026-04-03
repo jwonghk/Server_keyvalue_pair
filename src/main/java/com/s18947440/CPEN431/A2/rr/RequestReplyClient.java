@@ -21,7 +21,10 @@ public class RequestReplyClient {
     }
 
     public byte[] requestReply(byte[] appPayload) throws IOException {
-        byte[] messageId = new byte[16]; // 16 bytes
+        // byte[] messageId = new byte[16]; // 16 bytes
+
+        // Generate a new message ID for every new request
+        byte[] messageId = MessageId.newId16Bytes();
 
         long checksum = crc32(messageId, appPayload); // CRC32(messageID +++ payload):contentReference[oaicite:8]{index=8}
 
