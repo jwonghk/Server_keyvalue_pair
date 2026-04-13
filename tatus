@@ -1,0 +1,29 @@
+[33mcommit bd947998975ecf73bdbf5c8d1e47c1b8ec25d216[m[33m ([m[1;36mHEAD -> [m[1;32mA4[m[33m, [m[1;31morigin/A4[m[33m)[m
+Author: HoiSuen <johnnwong@hotmail.com>
+Date:   Fri Apr 3 16:22:34 2026 -0700
+
+    feat: at-most-once semantics implemented. A file for testing server locally added, the ClientAppTestingLocalServer.java file. A file also added for testing the client when talking to the remote server, i.e. the ClientAppTestingRemote.java
+
+[33mcommit b9f4dc17b023bb743dbf7d71945fbbc8ab8135ab[m
+Author: HoiSuen <johnnwong@hotmail.com>
+Date:   Wed Mar 18 14:12:23 2026 -0700
+
+    feat: KeyValueRequest, KeyValueResponse for the ProtocolBuffers compiled succesfully in Mavern
+
+[33mcommit 4b970215082161cb85494597815bc7e985f35ad1[m
+Author: HoiSuen <johnnwong@hotmail.com>
+Date:   Tue Mar 17 12:14:03 2026 -0700
+
+    feat: start of adding keyvalue pair function and at most once semantics to response
+
+[33mcommit cb5c4a5c4eff51419d6e07de1f8224376b483675[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: HoiSuen <johnnwong@hotmail.com>
+Date:   Sun Mar 15 22:05:25 2026 -0700
+
+    feat: checksum added
+
+[33mcommit 8829a67da5713139435979431b58f1f83ccf21ca[m
+Author: HoiSuen <johnnwong@hotmail.com>
+Date:   Sun Mar 15 21:25:13 2026 -0700
+
+    first commit

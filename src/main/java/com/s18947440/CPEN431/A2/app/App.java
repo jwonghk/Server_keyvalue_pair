@@ -21,8 +21,8 @@ public class App
 
         RequestReplyServer requestReplyServer = new RequestReplyServer(3102);
         System.out.println("App starting");
+        System.out.println("Max heap: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + " MB");
         requestReplyServer.start();
-
 
     }
 };

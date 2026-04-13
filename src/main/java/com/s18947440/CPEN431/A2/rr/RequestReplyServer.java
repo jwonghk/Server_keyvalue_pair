@@ -24,7 +24,11 @@ public class RequestReplyServer {
         private Map<ByteString, ValueEntry> keyValueStore;
         private int currentBytes = 0; // storing the total memory (in Bytes) usages of the key-value pair in
                                     // the keyValueStore Map
-        private static final int MAX_BYTES = 64 * 1024 * 1024; // limit of total memory size of keyValueStore
+
+
+        private static final int MAX_BYTES = 64 * 1024 * 1024;
+        //private static final int MAX_BYTES = 15; // limit of total memory size of keyValueStore
+        // temporarily set it to 20 to test for error during the PUT request from the client
 
         public RequestReplyServer(int port) throws Exception {
             socket = new DatagramSocket(port);
@@ -48,9 +52,14 @@ public class RequestReplyServer {
 
             while (true) {
 
+                System.out.println("Waiting for packet...");
+                //socket.receive(packet);
+
+
 
                 packet.setLength(buf.length);   // reset capacity
                 socket.receive(packet);
+                System.out.println("Received packet!");
                 byte[] requestBytes = Arrays.copyOfRange(
                         packet.getData(),
                         packet.getOffset(),
@@ -184,15 +193,21 @@ public class RequestReplyServer {
                         KeyValueResponse.KVResponse.Builder resp2 =
                                 KeyValueResponse.KVResponse.newBuilder();
 
-                        System.out.println("SERVER VALUE during GET = " + entry.value.toStringUtf8());
+
 
                         if (entry != null) {
+                            System.out.println("SERVER VALUE during GET = " + entry.value.toStringUtf8());
+
                             resp2.setErrCode(0)
                                     .setValue(entry.value)
                                     .setVersion(entry.version);
                         } else {
                             resp2.setErrCode(1); // key not found
+                            System.out.println("SERVER cannot find the Key");
+
                         }
+
+
                         return resp2.build().toByteArray();
 
                     case 3: // for removal
@@ -245,13 +260,14 @@ public class RequestReplyServer {
                     case 6: //  IsAlive: does nothing but replies with success if the node is alive.
                         KeyValueResponse.KVResponse resp6 =
                                 KeyValueResponse.KVResponse.newBuilder()
-                                        .setErrCode(23456)
+                                        .setErrCode(0)
                                         .build();
                         return resp6.toByteArray();
 
                     case 7: //  GetPID: the node is expected to reply with the processID of the Java process
                         String jvmName = ManagementFactory.getRuntimeMXBean().getName();
                         int pid = Integer.parseInt(jvmName.split("@")[0]);
+                        System.out.println("The Pid as requested is: " +  pid);
 
                         KeyValueResponse.KVResponse resp7 =
                                 KeyValueResponse.KVResponse.newBuilder()
