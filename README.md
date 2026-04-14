@@ -53,9 +53,11 @@ Network duplication
 1️⃣ Compile
 
 mvn clean compile
+
 2️⃣ Start Server (with memory limit)
 
 java -Xmx64m -cp target/classes:protobuf-java-3.21.12.jar server.RequestReplyServer
+
 3️⃣ Run Client
 
 java -cp target/classes:protobuf-java-3.21.12.jar client.ClientAppTestingLocalServer <key> <value>
