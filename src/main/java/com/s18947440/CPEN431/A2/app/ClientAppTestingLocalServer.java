@@ -10,10 +10,10 @@ import static sun.misc.Version.print;
 public class ClientAppTestingLocalServer {
     public static void main(String[] args) throws Exception {
         // local Host during testing : String serverHost = "localhost";
-        //String serverHost = "localhost";
+        // String serverHost = "localhost";
         // EC2 public IP: String serverHost = "3.137.142.226";
         System.out.println("=== NEW CLIENT RUNNING ===");
-        String serverHost = "18.116.235.145";
+        String serverHost = "54.196.24.30"; //54.196.24.30
         int serverPort = 3102;
 
         RequestReplyClient reqRepClient = new RequestReplyClient(serverHost, serverPort);

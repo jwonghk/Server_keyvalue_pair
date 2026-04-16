@@ -26,7 +26,7 @@ public class RequestReplyServer {
                                     // the keyValueStore Map
 
 
-        private static final int MAX_BYTES = 64 * 1024 * 1024;
+        private static final int MAX_BYTES = 32 * 1024 * 1024;
         //private static final int MAX_BYTES = 15; // limit of total memory size of keyValueStore
         // temporarily set it to 20 to test for error during the PUT request from the client
 
@@ -81,8 +81,11 @@ public class RequestReplyServer {
                 // check cache to see if the request has been replied before
                 byte[] cachedReply = requestCache.get(Arrays.toString(MessageId));
 
+                /*Temporary removed*/
+                /*
                 System.out.println("SERVER messageID = " + Arrays.toString(MessageId));
                 System.out.println("SERVER payload command = " + KeyValueRequest.KVRequest.parseFrom(PayLoad).getCommand());
+                */
 
                 // For At-Most-Once semantics
                 if (cachedReply != null) {
@@ -127,6 +130,7 @@ public class RequestReplyServer {
                 int reqCode = req.getCommand();
                 switch (reqCode) {
                     case 1: { // PUT
+
                         if (!req.hasKey() || req.getKey().size() == 0 || req.getKey().size() > 32) {
 
                             KeyValueResponse.KVResponse resp =
@@ -157,7 +161,18 @@ public class RequestReplyServer {
                             oldSize = key.size() + oldEntry.value.size();
                         }
 
+                        /* Temporary*/
+                        /*
+                        System.out.println(
+                                "PUT DEBUG → currentBytes=" + currentBytes +
+                                        ", oldSize=" + oldSize +
+                                        ", newSize=" + newSize +
+                                        ", delta=" + (newSize - oldSize)
+                        );*/
+
                         if (currentBytes - oldSize + newSize > MAX_BYTES) {
+
+
                             KeyValueResponse.KVResponse resp =
                                     KeyValueResponse.KVResponse.newBuilder()
                                             .setErrCode(2)
@@ -196,7 +211,10 @@ public class RequestReplyServer {
 
 
                         if (entry != null) {
+                            /*Temporary removed*/
+                            /*
                             System.out.println("SERVER VALUE during GET = " + entry.value.toStringUtf8());
+                            */
 
                             resp2.setErrCode(0)
                                     .setValue(entry.value)
@@ -225,6 +243,9 @@ public class RequestReplyServer {
                                 KeyValueResponse.KVResponse.newBuilder();
 
                         if (valRemoved != null) {
+                            // 🔥 subtract memory usage
+                            int removedSize = key3.size() + valRemoved.value.size();
+                            currentBytes -= removedSize;
                             resp3.setErrCode(0);
                         } else {
                             resp3.setErrCode(1); // key not found
@@ -255,6 +276,7 @@ public class RequestReplyServer {
                                 KeyValueResponse.KVResponse.newBuilder()
                                         .setErrCode(0)
                                         .build();
+                        requestCache.clear();
                         return resp5.toByteArray();
 
                     case 6: //  IsAlive: does nothing but replies with success if the node is alive.
